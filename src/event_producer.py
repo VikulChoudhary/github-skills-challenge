@@ -11,5 +11,7 @@ class EventProducer:
         if not event:
             return False
 
+        print("Producer: publishing anomaly event")
         self.topic.publish(event)
+        print(f"Topic: {self.topic.name} received event")
         return True

@@ -8,4 +8,6 @@ class EventConsumer:
         self.topic = topic
 
     def consume(self):
-        return self.topic.get_messages()
+        messages = self.topic.get_messages()
+        print(f"Consumer: received {len(messages)} event(s) from {self.topic.name}")
+        return messages

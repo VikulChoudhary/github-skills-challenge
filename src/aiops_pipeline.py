@@ -30,6 +30,7 @@ def run_pipeline(file_path):
         event = detector.detect(record)
 
         if event:
+            print(f"Event generated: {event['timestamp']} - {event['type']}")
             producer.publish(event)
             detected_events.append(event)
 
