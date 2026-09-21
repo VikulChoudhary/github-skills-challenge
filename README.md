@@ -1,18 +1,83 @@
-# GitHub Challenge
+AIOps Service Monitoring
+About
 
-<img src="https://octodex.github.com/images/Professortocat_v2.png" align="right" height="200px" />
+This project is a simple AIOps simulation for a payment service.
 
-Hey there!
+It checks service data, finds abnormal values, creates an event, and passes it through a producer, topic and consumer.
 
-Your challenge is ready.
-Follow the instructions provided for this challenge and complete the required tasks in this repository.
+Flow:
 
-Make sure your work is committed and pushed to your repository before submission.
+Data → Anomaly Detection → Event → Producer → Topic → Consumer → Output
+Data
 
-Good luck!
+The data is stored in:
 
+data/service_data.json
 
----
+It contains:
 
-&copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
+Response time
+CPU usage
+Memory usage
+Log level
+Log message
+Timestamp
 
+Most records are normal.
+
+The main abnormal records are at:
+
+10:05 - Response time 610 ms and ERROR log
+10:06 - Response time 640 ms, CPU 94%, memory 91% and ERROR log
+Anomalies
+
+The detector found 2 anomalies.
+
+At 10:05:
+
+High response time
+Error log
+
+At 10:06:
+
+High response time
+High CPU
+High memory
+Error log
+Problems Fixed
+The detector was checking WARNING instead of ERROR.
+The producer and consumer were using different topics.
+
+Both issues were fixed using the existing code structure.
+
+Final Result
+
+I ran:
+
+python src/aiops_pipeline.py
+
+Result:
+
+Records processed: 10
+Anomalies detected: 2
+Events consumed: 2
+
+The events successfully went from the producer to the topic and then to the consumer.
+
+Testing
+
+I ran:
+
+python -m pytest
+
+Result:
+
+8 passed
+Limitation
+
+The detector uses fixed thresholds. Dynamic thresholds based on historical data could improve the detection.
+
+Run
+pip install -r requirements.txt
+python src/aiops_pipeline.py
+python -m pytest
